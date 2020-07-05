@@ -12,7 +12,7 @@ To identify failing drives, criteria defined by [Blackblaze](https://www.backbla
 
 ## Download
 
-See [tags](/../../tags) page.
+See [tags](/../../tags) page. For executables, see [releases](/../../releases) page.
 
 ## Installation
 
