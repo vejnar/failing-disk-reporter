@@ -1,0 +1,9 @@
+[Unit]
+Description=Failing Disk Reporter
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+Unit=failing-disk-reporter.service
+
+[Install]
+WantedBy=timers.target

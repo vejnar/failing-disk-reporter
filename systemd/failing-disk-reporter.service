@@ -1,0 +1,7 @@
+[Unit]
+Description=Failing Disk Reporter
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/fdr -config /etc/fdr.toml

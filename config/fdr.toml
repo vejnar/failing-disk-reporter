@@ -1,0 +1,78 @@
+[smart]
+ignored_protocols = ["SCSI"]
+
+[[smart.criteria]]
+protocol = "ATA"
+key = "ata_smart_attributes"
+id = 5
+name = "Reallocated_Sector_Ct"
+label = "Reallocated Sector Count"
+max = 3
+
+[[smart.criteria]]
+protocol = "ATA"
+key = "ata_smart_attributes"
+id = 187
+name = "Reported_Uncorrect"
+label = "Reported Uncorrect"
+max = 0
+
+[[smart.criteria]]
+protocol = "ATA"
+key = "ata_smart_attributes"
+id = 197
+name = "Current_Pending_Sector"
+label = "Current Pending Sector"
+max = 0
+
+[[smart.criteria]]
+protocol = "ATA"
+key = "ata_smart_attributes"
+id = 198
+name = "Offline_Uncorrectable"
+label = "Offline Uncorrectable"
+max = 0
+
+[[smart.criteria]]
+protocol = "NVMe"
+key = "nvme_smart_health_information_log"
+name = "critical_warning"
+label = "Critical Warning"
+max = 0
+
+[[smart.criteria]]
+protocol = "NVMe"
+key = "nvme_smart_health_information_log"
+name = "media_errors"
+label = "Media and Data Integrity Errors"
+max = 0
+
+###############
+## Uncomment for testing
+# [[smart.criteria]]
+# protocol = "NVMe"
+# key = "nvme_smart_health_information_log"
+# name = "num_err_log_entries"
+# label = "Error Information Log Entries"
+# max = 0
+###############
+
+[[reporters]]
+name = "matrix"
+url = "https://matrix-client.matrix.org/_matrix/client/r0/rooms/ROOM:matrix.org/send/m.room.message?access_token=TOKEN"
+error_header = "! ERROR"
+error_footer = "@john.smith:matrix.org"
+ok_interval = "120h"
+ok_path = "/tmp/fdr_ok_matrix"
+error_interval = "24h"
+error_path = "/tmp/fdr_error_matrix"
+
+[[reporters]]
+name = "slack"
+url = "https://hooks.slack.com/services/TOKEN"
+error_header = ":heavy_exclamation_mark:*ERROR*"
+error_footer = "<@john.smith>"
+ok_interval = "120h"
+ok_path = "/tmp/fdr_ok_slack"
+error_interval = "24h"
+error_path = "/tmp/fdr_error_slack"
