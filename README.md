@@ -6,7 +6,7 @@ Get a report when a drive (HDD or SDD) is failing.
 
 For large infrastructures with 24/7 availability, available monitoring solutions are designed to keep them up-and-running by analyzing numerous parameters in real-time. For smaller setup, without high availability requirement and/or low resources, maintaining the integrity of the data is the primary resource to monitor. In that setup, other failures (such as RAM, network etc) are dealt with as they arise. *Failing Disk Reporter* is a simple tool checking periodically that drives are functional and reports when a failing drive is detected. Reporting to a [Matrix](https://www.matrix.org) room and a Slack channel are supported.
 
-Failing drives are detected using [Smartmontools](https://www.smartmontools.org) using the [S.M.A.R.T.](https://en.wikipedia.org/wiki/S.M.A.R.T.) interface. Smartmontools supported drives connected using a SATA HBA or a hardware RAID card.
+Failing drives are detected using [Smartmontools](https://www.smartmontools.org) using the [S.M.A.R.T.](https://en.wikipedia.org/wiki/S.M.A.R.T.) interface. Smartmontools supports drives connected directly on the motherboard using SATA ports from the [southbridge](https://en.wikipedia.org/wiki/Southbridge_(computing)) and drives connected on hardware RAID cards.
 
 To identify failing drives, criteria defined by [Blackblaze](https://www.backblaze.com/blog/what-smart-stats-indicate-hard-drive-failures) are used, as translated in this [post](https://superuser.com/questions/1171760/how-to-determine-how-dead-a-hdd-is-from-smartctl-report). Users can define different criteria.
 
