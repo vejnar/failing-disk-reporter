@@ -16,8 +16,9 @@ import (
 func main() {
 	// Arguments
 	var configPath string
-	var debug, verbose bool
+	var forceReport, debug, verbose bool
 	flag.StringVar(&configPath, "config", "fdr.toml", "Config path")
+	flag.BoolVar(&forceReport, "report", false, "Send reports ignoring intervals")
 	flag.BoolVar(&debug, "debug", false, "Debug")
 	flag.BoolVar(&verbose, "verbose", false, "Verbose")
 	// Arguments: Parse
@@ -67,7 +68,7 @@ func main() {
 	// Report
 	var sent bool
 	for _, r := range config.Reporters {
-		sent, err = r.Report(devices)
+		sent, err = r.Report(devices, forceReport)
 		if err != nil {
 			log.Fatal(err)
 		}

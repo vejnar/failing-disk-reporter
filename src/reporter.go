@@ -15,7 +15,7 @@ import (
 
 type Reporter interface {
 	Name() string
-	Report(*Devices) (bool, error)
+	Report(*Devices, bool) (bool, error)
 }
 
 func touchFile(path string) error {

@@ -52,12 +52,12 @@ max = 0
 
 ###############
 ## Uncomment for testing
-# [[smart.criteria]]
-# protocol = "NVMe"
-# key = "nvme_smart_health_information_log"
-# name = "num_err_log_entries"
-# label = "Error Information Log Entries"
-# max = 0
+[[smart.criteria]]
+protocol = "NVMe"
+key = "nvme_smart_health_information_log"
+name = "num_err_log_entries"
+label = "Error Information Log Entries"
+max = 0
 ###############
 
 [[reporters]]

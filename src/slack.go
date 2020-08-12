@@ -60,7 +60,7 @@ func (r *SlackReporter) Name() string {
 	return r.name
 }
 
-func (r *SlackReporter) Report(devices *Devices) (sendMsg bool, err error) {
+func (r *SlackReporter) Report(devices *Devices, forceReport bool) (sendMsg bool, err error) {
 	var hostname, msg, msgHeader, msgFooter string
 
 	// Hostname
@@ -85,16 +85,24 @@ func (r *SlackReporter) Report(devices *Devices) (sendMsg bool, err error) {
 				}
 			}
 		}
-		sendMsg, err = decideReport(r.errorPath, r.errorInterval)
-		if err != nil {
-			return false, err
+		if forceReport {
+			sendMsg = true
+		} else {
+			sendMsg, err = decideReport(r.errorPath, r.errorInterval)
+			if err != nil {
+				return false, err
+			}
 		}
 	} else {
 		// OK message
 		msg = fmt.Sprintf("%d drives found\\n", devices.Length())
-		sendMsg, err = decideReport(r.okPath, r.okInterval)
-		if err != nil {
-			return false, err
+		if forceReport {
+			sendMsg = true
+		} else {
+			sendMsg, err = decideReport(r.okPath, r.okInterval)
+			if err != nil {
+				return false, err
+			}
 		}
 	}
 
