@@ -46,7 +46,14 @@ See [tags](/../../tags) page. For executables, see [releases](/../../releases) p
 ### Slack reporter
 
 1. Create a [Webhook](https://api.slack.com/messaging/webhooks).
-2. Input the `TOKEN` in `url` parameter of the Slack reporter.
+2. Input the `TOKENxxx/Bxxx/Gxxx` in `url` parameter of the Slack reporter.
+
+## Test
+
+FDR can be tested with (`-debug` for increasing verbosity and `-report` for sending reports ignoring intervals configured in `fdr.toml`):
+```bash
+fdr -config config/fdr.toml -debug -report
+```
 
 ## License
 
