@@ -124,7 +124,6 @@ func (r *MatrixReporter) Report(devices *Devices, forceReport bool) (sendMsg boo
 		case err != nil:
 			return false, fmt.Errorf("Network error: %s", err)
 		case resp.StatusCode != 200:
-			fmt.Println(resp)
 			return false, fmt.Errorf("Bad HTTP status code: %d", resp.StatusCode)
 		}
 	}
