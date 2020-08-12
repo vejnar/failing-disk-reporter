@@ -72,7 +72,7 @@ error_path = "/tmp/fdr_error_matrix"
 
 [[reporters]]
 name = "slack"
-url = "https://hooks.slack.com/services/TOKEN"
+url = "https://hooks.slack.com/services/TOKENxxx/Bxxx/Gxxx"
 error_header = ":heavy_exclamation_mark:*ERROR*"
 error_footer = "<@john.smith>"
 ok_interval = "120h"
