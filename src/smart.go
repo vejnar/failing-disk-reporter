@@ -147,7 +147,7 @@ func (devices *Devices) FindErrors(criteria map[string][]Criteria) (err error) {
 					if err != nil {
 						return err
 					} else {
-						return fmt.Errorf(errorMessage)
+						return fmt.Errorf("smartctl failed on %s (code %d): %s", device.Name, ecode, errorMessage)
 					}
 				}
 			}
@@ -227,7 +227,7 @@ func (devices *Devices) FindErrors(criteria map[string][]Criteria) (err error) {
 				return fmt.Errorf("No info about drive")
 			}
 		} else {
-			return fmt.Errorf(fmt.Sprintf("Protocol %s not found", device.Protocol))
+			return fmt.Errorf("Protocol %s not found", device.Protocol)
 		}
 	}
 

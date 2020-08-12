@@ -27,6 +27,7 @@ type Config struct {
 	IgnoredProtocols map[string]bool
 	Criteria         map[string][]Criteria
 	Reporters        []Reporter
+	Verbose          int64
 }
 
 func ParseConfig(path string) (*Config, error) {
@@ -38,6 +39,14 @@ func ParseConfig(path string) (*Config, error) {
 	tree, err = toml.LoadFile(path)
 	if err != nil {
 		return config, err
+	}
+
+	// Verbose
+	v := tree.Get("general.verbose")
+	if v == nil {
+		config.Verbose = 0
+	} else {
+		config.Verbose = v.(int64)
 	}
 
 	// Ignored protocols

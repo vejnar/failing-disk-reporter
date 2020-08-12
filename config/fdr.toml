@@ -1,3 +1,6 @@
+[general]
+verbose = 1
+
 [smart]
 ignored_protocols = ["SCSI"]
 

@@ -10,14 +10,16 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 )
 
 func main() {
 	// Arguments
 	var configPath string
+	var debug, verbose bool
 	flag.StringVar(&configPath, "config", "fdr.toml", "Config path")
+	flag.BoolVar(&debug, "debug", false, "Debug")
+	flag.BoolVar(&verbose, "verbose", false, "Verbose")
 	// Arguments: Parse
 	flag.Parse()
 
@@ -29,12 +31,27 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// Verbose
+	if verbose && config.Verbose == 0 {
+		config.Verbose = 1
+	}
+	if debug {
+		config.Verbose = 10
+	}
 
 	// Get devices
 	var devices *Devices
 	devices, err = NewDevices(config.IgnoredProtocols)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if config.Verbose > 0 {
+		log.Printf("%d device(s) detected", devices.Length())
+	}
+	if config.Verbose >= 10 {
+		for i, d := range *devices {
+			log.Printf("Device %2d: %-20s %-20s %s", i+1, d.Type, d.Name, d.Protocol)
+		}
 	}
 
 	// Find error(s)
@@ -43,7 +60,9 @@ func main() {
 		log.Fatal(err)
 	}
 	devices.RemoveDuplicates()
-	fmt.Printf("%d devices and %d errors detected\n", devices.Length(), devices.LengthError())
+	if config.Verbose > 0 {
+		log.Printf("%d error(s) detected", devices.LengthError())
+	}
 
 	// Report
 	var sent bool
@@ -52,8 +71,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		if sent {
-			fmt.Printf("Report sent to %s\n", r.Name())
+		if config.Verbose > 0 && sent {
+			log.Printf("Report sent to %s", r.Name())
 		}
 	}
 }
