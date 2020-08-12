@@ -140,8 +140,11 @@ func (devices *Devices) FindErrors(criteria map[string][]Criteria) (err error) {
 
 		if err != nil {
 			if exitError, ok := err.(*exec.ExitError); ok {
-				switch exitError.ExitCode() {
-				case 4: // Ignore return code 4 (mostly false positive)
+				ecode := exitError.ExitCode()
+				switch ecode {
+				case 4: // Ignore return codes 4, 64, 68 (might indicate some past failure; mostly false positive)
+				case 64:
+				case 68:
 				default:
 					errorMessage, err := parseError(out)
 					if err != nil {
