@@ -27,7 +27,8 @@ type Config struct {
 	IgnoredProtocols map[string]bool
 	Criteria         map[string][]Criteria
 	Reporters        []Reporter
-	Verbose          int64
+	Verbose          bool
+	Debug            bool
 }
 
 func ParseConfig(path string) (*Config, error) {
@@ -44,9 +45,9 @@ func ParseConfig(path string) (*Config, error) {
 	// Verbose
 	v := tree.Get("general.verbose")
 	if v == nil {
-		config.Verbose = 0
+		config.Verbose = false
 	} else {
-		config.Verbose = v.(int64)
+		config.Verbose = v.(bool)
 	}
 
 	// Ignored protocols

@@ -10,6 +10,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 
 	"github.com/buger/jsonparser"
@@ -96,6 +97,32 @@ func parseError(data []byte) (errorMessage string, err error) {
 	return errorMessage, err
 }
 
+func switchSmartError(ecode int, out []byte, deviceName string, debug bool) error {
+	// Ignore return codes 4, 64, 68 (might indicate some past failure; mostly false positive)
+	switch ecode {
+	case 4:
+		if debug {
+			log.Printf("smartctl returned with code %d on %s", ecode, deviceName)
+		}
+	case 64:
+		if debug {
+			log.Printf("smartctl returned with code %d on %s", ecode, deviceName)
+		}
+	case 68:
+		if debug {
+			log.Printf("smartctl returned with code %d on %s", ecode, deviceName)
+		}
+	default:
+		errorMessage, err := parseError(out)
+		if err != nil {
+			return err
+		} else {
+			return fmt.Errorf("smartctl failed on %s (code %d): %s", deviceName, ecode, errorMessage)
+		}
+	}
+	return nil
+}
+
 func hasKey(data []byte, keys ...string) bool {
 	_, _, _, err := jsonparser.Get(data, keys...)
 	if err == jsonparser.KeyPathNotFoundError {
@@ -104,10 +131,18 @@ func hasKey(data []byte, keys ...string) bool {
 	return true
 }
 
-func NewDevices(ignoredProtocols map[string]bool) (devices *Devices, err error) {
+func NewDevices(ignoredProtocols map[string]bool, debug bool) (devices *Devices, err error) {
 	var out []byte
 
 	// Scan devices
+	if debug {
+		log.Println("Start smartctl --scan-open")
+		out, err = exec.Command("smartctl", "--scan-open").Output()
+		if err != nil {
+			return devices, err
+		}
+		log.Print(string(out))
+	}
 	out, err = exec.Command("smartctl", "--scan-open", "--json").Output()
 	if err != nil {
 		return devices, err
@@ -129,30 +164,27 @@ func (devices *Devices) LengthError() (n int) {
 	return
 }
 
-func (devices *Devices) FindErrors(criteria map[string][]Criteria) (err error) {
+func (devices *Devices) FindErrors(criteria map[string][]Criteria, debug bool) (err error) {
 	var out []byte
 
 	for idevice := 0; idevice < devices.Length(); idevice++ {
 		device := &(*devices)[idevice]
 
 		// Run smartctl
+		if debug {
+			log.Println("Start smartctl --all --device", device.Type, device.Name)
+			out, err = exec.Command("smartctl", "--all", "--device", device.Type, device.Name).Output()
+			if err != nil {
+				if exitError, ok := err.(*exec.ExitError); ok {
+					switchSmartError(exitError.ExitCode(), out, device.Name, debug)
+				}
+			}
+			log.Print(string(out))
+		}
 		out, err = exec.Command("smartctl", "--all", "--json", "--device", device.Type, device.Name).Output()
-
 		if err != nil {
 			if exitError, ok := err.(*exec.ExitError); ok {
-				ecode := exitError.ExitCode()
-				switch ecode {
-				case 4: // Ignore return codes 4, 64, 68 (might indicate some past failure; mostly false positive)
-				case 64:
-				case 68:
-				default:
-					errorMessage, err := parseError(out)
-					if err != nil {
-						return err
-					} else {
-						return fmt.Errorf("smartctl failed on %s (code %d): %s", device.Name, ecode, errorMessage)
-					}
-				}
+				switchSmartError(exitError.ExitCode(), out, device.Name, debug)
 			}
 		}
 
