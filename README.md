@@ -16,7 +16,7 @@ See [tags](/../../tags) page. For executables, see [releases](/../../releases) p
 
 ## Installation
 
-1. Install `fdr` executable in `/usr/bin` (or `/usr/bin`, in that case change path to `fdr` in [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service))
+1. Install `fdr` executable in `/usr/bin` (or `/usr/local/bin`, in that case change path to `fdr` in [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service))
 2. Edit FDR configuration file [fdr.toml](/../../raw/master/config/fdr.toml), then copy it to `/etc`
 3. Copy systemd [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service) and [failing-disk-reporter.timer](/../../raw/master/systemd/failing-disk-reporter.timer) to `/etc/systemd/system`
 4. Enable and start the timer:
