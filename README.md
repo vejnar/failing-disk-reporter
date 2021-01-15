@@ -14,6 +14,11 @@ To identify failing drives, criteria defined by [Blackblaze](https://www.backbla
 
 See [tags](/../../tags) page. For executables, see [releases](/../../releases) page.
 
+Executables are statically linked binaries obtained with disabled [cgo](https://golang.org/cmd/cgo):
+```bash
+CGO_ENABLED=0 go build *go
+```
+
 ## Installation
 
 1. Install `fdr` executable in `/usr/bin` (or `/usr/local/bin`, in that case change path to `fdr` in [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service))
