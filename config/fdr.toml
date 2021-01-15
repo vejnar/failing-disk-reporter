@@ -1,5 +1,5 @@
 [general]
-verbose = 1
+verbose = true
 
 [smart]
 ignored_protocols = ["SCSI"]
