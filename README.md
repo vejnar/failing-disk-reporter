@@ -45,7 +45,7 @@ CGO_ENABLED=0 go build *go
 
 ### Matrix reporter
 
-1. Get the access token from the *Help & About* tab in the user config (details in this [post](https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-riot-matrix)). Input this tocken in the `TOKEN` parameter of the Matrix reporter.
+1. Get the access token from the *Help & About* tab in the user config (details in this [post](https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-riot-matrix)). Input this token in the `TOKEN` parameter of the Matrix reporter.
 2. Get the *Internal room ID* from the *Advanced* tab in the config page of the room messages should be sent. Input this room ID in the `ROOM` parameter of the Matrix reporter.
 
 ### Slack reporter
