@@ -64,4 +64,4 @@ fdr -config config/fdr.toml -debug -report
 
 *Failing Disk Reporter* is distributed under the Mozilla Public License Version 2.0 (see /LICENSE).
 
-Copyright (C) 2020-2021 Charles E. Vejnar
+Copyright (C) 2020-2022 Charles E. Vejnar
