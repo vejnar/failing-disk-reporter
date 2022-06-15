@@ -21,27 +21,35 @@ CGO_ENABLED=0 go build *go
 
 ## Installation
 
+### AUR (Archlinux)
+
+Install the [failing-disk-reporter](https://aur.archlinux.org/packages/failing-disk-reporter) package available on the AUR.
+
+### Manual
+
 1. Install `fdr` executable in `/usr/bin` (or `/usr/local/bin`, in that case change path to `fdr` in [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service))
 2. Edit FDR configuration file [fdr.toml](/../../raw/master/config/fdr.toml), then copy it to `/etc`
 3. Copy systemd [failing-disk-reporter.service](/../../raw/master/systemd/failing-disk-reporter.service) and [failing-disk-reporter.timer](/../../raw/master/systemd/failing-disk-reporter.timer) to `/etc/systemd/system`
-4. Enable and start the timer:
+
+## Configuration
+
+1. Configure FDR in `/etc/fdr.toml`:
+    * *[smart]*
+        * *ignored_protocols*: List of protocols ignored
+    * *[[smart.criteria]]*: List of criteria to identify failing drives
+        * *protocol*: For example `ATA`, `NVMe`
+        * *key*: SMART attribute
+        * *id*: SMART attribute, optional
+        * *name*: SMART attribute
+        * *label*: Label for report
+        * *max*: Threshold for failure
+    * *[[reporters]]* Configuration of reporters
+
+2. Enable and start the timer:
     ```bash
     systemctl enable failing-disk-reporter.timer
     systemctl start failing-disk-reporter.timer
     ```
-
-## Configuration
-
-* *[smart]*
-    * *ignored_protocols*: List of protocols ignored
-* *[[smart.criteria]]*: List of criteria to identify failing drives
-    * *protocol*: For example `ATA`, `NVMe`
-    * *key*: SMART attribute
-    * *id*: SMART attribute, optional
-    * *name*: SMART attribute
-    * *label*: Label for report
-    * *max*: Threshold for failure
-* *[[reporters]]* Configuration of reporters
 
 ### Matrix reporter
 
