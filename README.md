@@ -3,7 +3,7 @@
 [![FDR](https://img.shields.io/aur/version/failing-disk-reporter?color=1793d1&logo=arch-linux&style=for-the-badge)](https://aur.archlinux.org/packages/failing-disk-reporter/)
 [![MPLv2](https://img.shields.io/aur/license/failing-disk-reporter?color=1793d1&style=for-the-badge)](https://mozilla.org/MPL/2.0/)
 
-Get a report when a drive (HDD or SDD) is failing.
+Get a report on Matrix or Slack when a drive (HDD or SDD) is failing.
 
 ## Rationale
 
