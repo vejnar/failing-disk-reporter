@@ -1,0 +1,31 @@
+image: archlinux
+oauth: git.sr.ht/OBJECTS:RW git.sr.ht/REPOSITORIES:RO git.sr.ht/PROFILE:RO
+packages:
+    - hut
+    - go
+sources:
+    - git@git.sr.ht:~vejnar/failing-disk-reporter
+environment:
+    repo: failing-disk-reporter
+tasks:
+    - build: |
+        cd $repo
+        export GOROOT_FINAL="/usr/bin" CGO_ENABLED=0
+        export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+        go build ./cmd/...
+    - archive-tag: |
+        cd $repo
+        tag=$(git describe --exact-match 2>/dev/null || true)
+        if [ -z "$tag" ]; then
+            echo "Current commit is not a tag; not building anything"
+            exit 0
+        fi
+
+        # Publish archive
+        version=$(echo "$tag" | tr -d 'v')
+        git archive "v$version" -o "$repo-$version.tar.gz"
+        hut git artifact upload --rev "$tag" "$repo-$version.tar.gz"
+
+        # Publish binary
+        mv fdr fdr-linux-amd64
+        hut git artifact upload --rev "$tag" fdr-linux-amd64
