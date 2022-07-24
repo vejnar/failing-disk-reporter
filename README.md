@@ -12,7 +12,7 @@ To identify failing drives, criteria defined by [Blackblaze](https://www.backbla
 
 ## Download
 
-See [tags](/../../tags) page. For executables, see [releases](/../../releases) page.
+See [refs](https://git.sr.ht/~vejnar/failing-disk-reporter/refs) page for tarball and executable.
 
 Executables are statically linked binaries obtained with disabled [cgo](https://golang.org/cmd/cgo):
 ```bash
