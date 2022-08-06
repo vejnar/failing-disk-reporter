@@ -1,13 +1,14 @@
 image: archlinux
 oauth: git.sr.ht/OBJECTS:RW git.sr.ht/REPOSITORIES:RO git.sr.ht/PROFILE:RO
-packages:
-    - hut
-    - go
 sources:
     - git@git.sr.ht:~vejnar/failing-disk-reporter
 environment:
     repo: failing-disk-reporter
+    packages: go hut
 tasks:
+    - update: |
+        sudo pacman -Sy --noconfirm --noprogressbar archlinux-keyring
+        sudo pacman -Syu --noconfirm --noprogressbar $packages
     - build: |
         cd $repo
         export GOROOT_FINAL="/usr/bin" CGO_ENABLED=0
@@ -17,7 +18,7 @@ tasks:
         cd $repo
         tag=$(git describe --exact-match 2>/dev/null || true)
         if [ -z "$tag" ]; then
-            echo "Current commit is not a tag; not building anything"
+            echo "Current commit is not a tag; abort task"
             exit 0
         fi
 
