@@ -28,5 +28,5 @@ tasks:
         hut git artifact upload --rev "$tag" "$repo-$version.tar.gz"
 
         # Publish binary
-        mv fdr fdr-linux-amd64
-        hut git artifact upload --rev "$tag" fdr-linux-amd64
+        mv fdr "fdr-linux-amd64-$version"
+        hut git artifact upload --rev "$tag" "fdr-linux-amd64-$version"
