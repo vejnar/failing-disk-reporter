@@ -118,7 +118,6 @@ func (r *MatrixReporter) Report(devices *Devices, forceReport bool) (sendMsg boo
 
 		// Send message
 		resp, err := http.Post(r.url, "application/json", strings.NewReader(jsonString))
-		defer resp.Body.Close()
 
 		switch {
 		case err != nil:
@@ -126,6 +125,8 @@ func (r *MatrixReporter) Report(devices *Devices, forceReport bool) (sendMsg boo
 		case resp.StatusCode != 200:
 			return false, fmt.Errorf("Bad HTTP status code: %d", resp.StatusCode)
 		}
+
+		defer resp.Body.Close()
 	}
 
 	return sendMsg, nil
